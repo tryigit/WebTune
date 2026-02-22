@@ -71,7 +71,6 @@ These settings are optimized for the standalone Google Chrome browser applicatio
 | ` #disable-accelerated-video-encode ` | **Disabled** | **Low Risk (Crucial):** **ENABLES** hardware video encoding for video calls, reducing battery drain. |
 | ` #webrtc-hw-decoding ` | **Enabled** | **Low Risk:** Ensures video calls (WebRTC) are energy-efficient. |
 | ` #webrtc-hw-encoding ` | **Enabled** | **Low Risk:** Complements the setting above for two-way video communication. |
-| ` #enable-quic ` | **Enabled** | **Low Risk:** Improves connection speed and reliability on unstable networks like mobile data. |
 | ` #throttle-main-thread-to-60hz ` | **Enabled** | **Low Risk:** Prevents unnecessary energy expenditure on high-refresh-rate displays. See the dialectic below. |
 | ` #enable-lazy-load-image-for-invisible-pages ` | **Enabled** | **Low Risk:** Conserves energy and bandwidth by deferring the loading of off-screen images. |
 | ` #disallow-doc-written-script-loads ` | **Enabled** | **Medium Risk:** Intervenes against an archaic scripting practice. May affect some legacy sites. |
@@ -138,7 +137,6 @@ The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 #disable-accelerated-video-encode -> Disabled
 #webrtc-hw-decoding -> Enabled
 #webrtc-hw-encoding -> Enabled
-#enable-quic -> Enabled
 #throttle-main-thread-to-60hz -> Enabled
 #enable-lazy-load-image-for-invisible-pages -> Enabled
 #disallow-doc-written-script-loads -> Enabled
