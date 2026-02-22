@@ -10,12 +10,12 @@ By following this framework, you will learn to calibrate your entire digital eco
 
 ---
 
-### 🧠 A Foundation of Mindful Experimentation
+## 🧠 A Foundation of Mindful Experimentation
 
 Before we begin this journey, it is essential to adopt a mindset of conscious exploration. You are about to interact with the developmental core of Google's web rendering engines. This process is powerful and safe, provided you proceed with intention.
 
-*   **The Principle of Singularity:** Calibrate one setting at a time. Relaunch (or restart for WebView). Observe. This systematic approach ensures you understand the direct impact of each decision, building your confidence and intuition.
-*   **The Foundational State:** The "Reset all" button within the flags menu is not a panic button; it is your **safe baseline**. It is a tool that allows you to return to a known, stable state at any time, liberating you to explore without fear.
+* **The Principle of Singularity:** Calibrate one setting at a time. Relaunch (or restart for WebView). Observe. This systematic approach ensures you understand the direct impact of each decision, building your confidence and intuition.
+* **The Foundational State:** The "Reset all" button within the flags menu is not a panic button; it is your **safe baseline**. It is a tool that allows you to return to a known, stable state at any time, liberating you to explore without fear.
 
 ---
 
@@ -25,22 +25,24 @@ This guide provides separate, optimized configurations for Chrome and WebView. I
 
 ### Part 1: Calibrating Google Chrome
 
-1.  **Access the Control Panel:** Open the Chrome app and navigate to `chrome://flags`.
-2.  **Locate & Implement:** Use the search bar to find the **Flag Identifier** from the **Chrome Configuration** tables below. Adjust the setting and tap **"Relaunch"**.
-3.  **Observe:** Pay attention to the shifts in your browser's behavior, feel, and responsiveness.
+1. **Access the Control Panel:** Open the Chrome app and navigate to `chrome://flags`.
+2. **Locate & Implement:** Use the search bar to find the **Flag Identifier** from the **Chrome Configuration** tables below. Adjust the setting and tap **"Relaunch"**.
+3. **Observe:** Pay attention to the shifts in your browser's behavior, feel, and responsiveness.
 
 ### Part 2: Calibrating Android System WebView (Advanced)
 
-1.  **Prerequisite:** You need a tool that can launch hidden activities. We recommend **[ActivityManager by sdex](https://github.com/sdex/ActivityManager/releases)**, a powerful open-source utility.
-2.  **Launch WebView DevTools:**
-    *   Open ActivityManager.
-    *   Search for and launch the following activity:
-        ```
-        WebView DevTools
-        org.chromium.android_webview.devui.MainActivity
-        ```
-3.  **Locate & Implement:** This will open the WebView flags interface. Use the search bar to find the **Flag Identifier** from the **WebView Configuration** table below.
-4.  **Finalize:** After applying all desired settings, **restart your device** to ensure the changes are applied system-wide across all apps that use WebView.
+1. **Prerequisite:** You need a tool that can launch hidden activities. We recommend **[ActivityManager by sdex](https://github.com/sdex/ActivityManager/releases)**, a powerful open-source utility.
+2. **Launch WebView DevTools:**
+    * Open ActivityManager.
+    * Search for and launch the following activity:
+
+      ```text
+      WebView DevTools
+      org.chromium.android_webview.devui.MainActivity
+      ```
+
+3. **Locate & Implement:** This will open the WebView flags interface. Use the search bar to find the **Flag Identifier** from the **WebView Configuration** table below.
+4. **Finalize:** After applying all desired settings, **restart your device** to ensure the changes are applied system-wide across all apps that use WebView.
 
 ---
 
@@ -93,7 +95,6 @@ These settings are optimized for the standalone Google Chrome browser applicatio
 > [!WARNING]
 > This is not recommended in Cn Roms as it will change the Webview Ram Management method.
 
-
 These settings are optimized for the Android System WebView component.
 
 ### 🚀 Core WebView Optimization Tier
@@ -113,8 +114,8 @@ These settings are optimized for the Android System WebView component.
 
 The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 
-*   **The Path of Endurance (Enabled):** You prioritize battery longevity. By capping non-essential updates at 60fps, you significantly reduce passive power drain, accepting a *potential* and often imperceptible change in maximum scrolling smoothness.
-*   **The Path of Absolute Fluidity (Disabled):** You prioritize the highest possible frame rate at all times, providing peak perceptual smoothness at the cost of higher energy consumption.
+* **The Path of Endurance (Enabled):** You prioritize battery longevity. By capping non-essential updates at 60fps, you significantly reduce passive power drain, accepting a *potential* and often imperceptible change in maximum scrolling smoothness.
+* **The Path of Absolute Fluidity (Disabled):** You prioritize the highest possible frame rate at all times, providing peak perceptual smoothness at the cost of higher energy consumption.
 
 **Our recommendation is to begin with the Path of Endurance.** Make a conscious assessment based on your own sensory experience and priorities.
 
@@ -122,7 +123,8 @@ The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 
 ## Quick Reference Manifests
 
-### For Google Chrome:
+### For Google Chrome
+
 ```text
 #enable-gpu-rasterization -> Enabled
 #enable-vulkan -> Enabled
@@ -149,7 +151,8 @@ The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 #enable-reader-mode-heuristics -> All articles
 ```
 
-### For Android System WebView:
+### For Android System WebView
+
 ```text
 #disable-gpu-rasterization -> Disabled
 #WebViewSurfaceControl -> Enabled
