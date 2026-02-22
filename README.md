@@ -92,7 +92,7 @@ These settings are optimized for the standalone Google Chrome browser applicatio
 ## WebView Configuration Framework
 
 > [!WARNING]
-> This is not recommended in Cn Roms as it will change the Webview Ram Management method.
+> This is not recommended in CN ROMs as it will change the WebView RAM management method.
 
 These settings are optimized for the Android System WebView component.
 
