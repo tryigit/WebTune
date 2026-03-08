@@ -58,7 +58,7 @@ These settings are optimized for the standalone Google Chrome browser applicatio
 | ` #enable-vulkan ` | **Enabled** | **Medium Risk:** Enables the modern, low-overhead Vulkan graphics API. If you experience crashes or visual glitches, revert to `Default`. |
 | ` #skia-graphite ` | **Enabled** | **Medium Risk:** Engages a forward-thinking, next-generation rendering engine. A primary variable to check if you perceive any instability. |
 | ` #enable-zero-copy ` | **Enabled** | **Low Risk:** Eliminates a redundant data transfer step, reducing internal latency. |
-| ` #prerender2 ` | **Enabled** | **Low Risk:** The browser anticipates your navigation and prepares the page in advance for an instantaneous loading experience. **Warning:** This introduces privacy risks by pre-loading content from third-party servers. |
+| ` #prerender2 ` | **Disabled** | **Low Risk:** Prevents the browser from pre-loading content from third-party servers before you explicitly navigate to them, protecting your privacy. |
 | ` #back-forward-cache ` | **Enabled** | **Low Risk:** Makes back/forward navigation an instant state restoration from memory. |
 | ` #enable-parallel-downloading ` | **Enabled** | **Low Risk:** Significantly reduces download times by splitting files into multiple parts. |
 | ` #smooth-scrolling ` | **Enabled** | **Low Risk:** Transforms scrolling into a single, smooth, and continuous motion. |
@@ -129,7 +129,7 @@ The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 #enable-vulkan -> Enabled
 #skia-graphite -> Enabled
 #enable-zero-copy -> Enabled
-#prerender2 -> Enabled
+#prerender2 -> Disabled
 #back-forward-cache -> Enabled
 #enable-parallel-downloading -> Enabled
 #smooth-scrolling -> Enabled
