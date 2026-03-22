@@ -40,5 +40,17 @@ else
     echo "Test 2 Passed: Invalid markdown failed linting as expected."
 fi
 
+
+# Test 3: Default argument should use current directory
+echo "Running Test 3: Default argument uses current directory..."
+OUTPUT=$("$REPO_ROOT/tests/run_lint.sh")
+if [[ "$OUTPUT" == *"Linting passed for ."* ]]; then
+    echo "Test 3 Passed: Default argument correctly used current directory."
+else
+    echo "Test 3 Failed: Default argument test did not behave as expected."
+    echo "Output: $OUTPUT"
+    exit 1
+fi
+
 echo "All tests passed!"
 exit 0
