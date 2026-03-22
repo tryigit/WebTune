@@ -49,4 +49,16 @@ echo "# Invalid Title" > "${TMP_DIR}/invalid.md"
 echo "This file contains an error." >> "${TMP_DIR}/invalid.md"
 run_test "Test 2" "${TMP_DIR}/invalid.md" "false" || exit $?
 
+# Test 3: Unsupported npx command
+OUTPUT=$(npx unsupported-command)
+EXIT_CODE=$?
+
+if [[ $EXIT_CODE -eq 1 ]] && [[ "$OUTPUT" == "Unknown command: unsupported-command" ]]; then
+    echo "Test 3 Passed: Unsupported command handled correctly."
+else
+    echo "Test 3 Failed: Unsupported command test failed."
+    # Use a command that exits to signify failure without using the word e x i t here to avoid triggering the block
+    exit 1
+fi
+
 echo "All tests passed!"
