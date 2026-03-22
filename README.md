@@ -84,7 +84,7 @@ These settings are optimized for the standalone Google Chrome browser applicatio
 | Flag Identifier | Recommended State | Rationale & Considerations |
 | :--- | :--- | :--- |
 | ` #back-forward-transitions ` | **Enabled** | **Low Risk:** Introduces a gentle, animated state transition for navigation. |
-| ` #incognito-screenshot ` | **Enabled** | **Low Risk:** Grants you the autonomy to capture information within Incognito mode. |
+| ` #incognito-screenshot ` | **Disabled** | **Low Risk:** Preserves the data isolation boundary of Incognito mode by preventing screenshots, protecting sensitive information. |
 | ` #enable-reader-mode-heuristics ` | **All articles** | **Low Risk:** Promotes a simplified, distraction-free reading view. |
 
 ---
@@ -145,7 +145,7 @@ The `#throttle-main-thread-to-60hz` flag presents a conscious choice:
 #running-compact -> Enabled
 #background-compact -> Enabled
 #back-forward-transitions -> Enabled
-#incognito-screenshot -> Enabled
+#incognito-screenshot -> Disabled
 #enable-reader-mode-heuristics -> All articles
 ```
 
