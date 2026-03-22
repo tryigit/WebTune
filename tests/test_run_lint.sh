@@ -40,5 +40,22 @@ else
     echo "Test 2 Passed: Invalid markdown failed linting as expected."
 fi
 
+
+# Test 3: Missing file argument for mock npx
+echo "Running Test 3: Missing file argument..."
+TEST3_OUTPUT=$(npx markdownlint-cli 2>&1)
+TEST3_EXIT_CODE=$?
+
+if [[ $TEST3_EXIT_CODE -eq 1 ]] && [[ "$TEST3_OUTPUT" == "Usage: npx markdownlint-cli <file>" ]]; then
+    echo "Test 3 Passed: Missing file argument handled correctly."
+else
+    echo "Test 3 Failed: Unexpected output or exit code."
+    echo "Expected exit code: 1, Actual: $TEST3_EXIT_CODE"
+    echo "Expected output: Usage: npx markdownlint-cli <file>"
+    echo "Actual output: $TEST3_OUTPUT"
+    exit 1
+fi
+
 echo "All tests passed!"
+
 exit 0
