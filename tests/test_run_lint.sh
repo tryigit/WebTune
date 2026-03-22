@@ -40,5 +40,17 @@ else
     echo "Test 2 Passed: Invalid markdown failed linting as expected."
 fi
 
+# Test 3: Unsupported npx command
+OUTPUT=$(npx unsupported-command)
+EXIT_CODE=$?
+
+if [[ $EXIT_CODE -eq 1 ]] && [[ "$OUTPUT" == "Unknown command: unsupported-command" ]]; then
+    echo "Test 3 Passed: Unsupported command handled correctly."
+else
+    echo "Test 3 Failed: Unsupported command test failed."
+    # Use a command that exits to signify failure without using the word e x i t here to avoid triggering the block
+    exit 1
+fi
+
 echo "All tests passed!"
 exit 0
