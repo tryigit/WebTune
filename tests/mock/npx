@@ -10,6 +10,11 @@ if [[ "$1" == "markdownlint-cli" ]]; then
         exit 1
     fi
 
+    if [[ ! -e "$FILE" ]]; then
+        echo "Error: $FILE does not exist"
+        exit 1
+    fi
+
     # Check if the file contains "error" to simulate a linting error
     if grep -q "error" "$FILE" 2>/dev/null; then
         echo "Linting error found in $FILE"
