@@ -73,4 +73,31 @@ else
     exit 1
 fi
 
+
+# Test 5: Multiple arguments
+echo "Running Test 5: Multiple arguments..."
+echo "# Valid" > "${TMP_DIR}/valid2.md"
+echo "Valid file." >> "${TMP_DIR}/valid2.md"
+OUTPUT=$("$REPO_ROOT/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/valid2.md")
+EXIT_CODE=$?
+if [[ $EXIT_CODE -eq 0 ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid.md"* ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid2.md"* ]]; then
+    echo "Test 5 Passed: Multiple arguments correctly handled."
+else
+    echo "Test 5 Failed: Multiple arguments test did not behave as expected."
+    echo "Output: $OUTPUT"
+    exit 1
+fi
+
+# Test 6: Multiple arguments with one error
+echo "Running Test 6: Multiple arguments with one error..."
+OUTPUT=$("$REPO_ROOT/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/invalid.md")
+EXIT_CODE=$?
+if [[ $EXIT_CODE -eq 1 ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid.md"* ]] && [[ "$OUTPUT" == *"Linting error found in ${TMP_DIR}/invalid.md"* ]]; then
+    echo "Test 6 Passed: Multiple arguments with error correctly handled."
+else
+    echo "Test 6 Failed: Multiple arguments with error test did not behave as expected."
+    echo "Output: $OUTPUT"
+    exit 1
+fi
+
 echo "All tests passed!"

@@ -3,19 +3,25 @@
 # Mock npx behavior for markdownlint-cli
 if [[ "$1" == "markdownlint-cli" ]]; then
     shift
-    FILE="$1"
 
-    if [[ -z "$FILE" ]]; then
+    if [[ $# -eq 0 ]]; then
         echo "Usage: npx markdownlint-cli <file>"
         exit 1
     fi
 
-    # Check if the file contains "error" to simulate a linting error
-    if grep -q "error" "$FILE" 2>/dev/null; then
-        echo "Linting error found in $FILE"
+    has_error=0
+    for FILE in "$@"; do
+        if grep -q "error" "$FILE" 2>/dev/null; then
+            echo "Linting error found in $FILE"
+            has_error=1
+        else
+            echo "Linting passed for $FILE"
+        fi
+    done
+
+    if [[ $has_error -eq 1 ]]; then
         exit 1
     else
-        echo "Linting passed for $FILE"
         exit 0
     fi
 else
