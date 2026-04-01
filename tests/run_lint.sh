@@ -1,2 +1,2 @@
 #!/bin/bash
-npx markdownlint-cli "${1:-.}"
+npx markdownlint-cli "${@:-.}"
