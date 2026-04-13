@@ -16,88 +16,65 @@ trap 'rm -rf "${TMP_DIR}"' EXIT
 
 echo "Using temporary directory: ${TMP_DIR}"
 
-run_test() {
+assert_command() {
     local test_name="${1}"
-    local test_file="${2}"
-    local expected_success="${3}"
+    local expected_exit="${2}"
+    local expected_substrings="${3}"
+    shift 3
 
     echo "Running ${test_name}..."
-    if "${REPO_ROOT}/tests/run_lint.sh" "${test_file}"; then
-        if [ "${expected_success}" = "true" ]; then
-            echo "${test_name} Passed: File passed linting."
-        else
-            echo "${test_name} Failed: File incorrectly passed linting."
-            return 1
-        fi
-    else
-        if [ "${expected_success}" = "false" ]; then
-            echo "${test_name} Passed: File failed linting as expected."
-        else
-            echo "${test_name} Failed: File incorrectly failed linting."
-            return 1
-        fi
+    local output
+    local exit_code=0
+    output=$("$@" 2>&1) || exit_code=$?
+
+    if [[ ${exit_code} -ne ${expected_exit} ]]; then
+        echo "${test_name} Failed: Expected exit code ${expected_exit}, got ${exit_code}."
+        echo "Output: ${output}"
+        exit 1
     fi
+
+    if [[ -n "${expected_substrings}" ]]; then
+        IFS='|' read -ra SUBSTRINGS <<< "${expected_substrings}"
+        for substr in "${SUBSTRINGS[@]}"; do
+            if [[ "${output}" != *"${substr}"* ]]; then
+                echo "${test_name} Failed: Expected substring \"${substr}\" not found in output."
+                echo "Output: ${output}"
+                exit 1
+            fi
+        done
+    fi
+
+    echo "${test_name} Passed."
 }
 
 # Test 1: Valid markdown file should pass
 echo "# Valid Title" > "${TMP_DIR}/valid.md"
 echo "This is a valid markdown file." >> "${TMP_DIR}/valid.md"
-run_test "Test 1" "${TMP_DIR}/valid.md" "true" || exit $?
+assert_command "Test 1" 0 "Linting passed for ${TMP_DIR}/valid.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/valid.md"
 
 # Test 2: Invalid markdown file (simulated by "error" keyword in mock) should fail
 echo "# Invalid Title" > "${TMP_DIR}/invalid.md"
 echo "This file contains an error." >> "${TMP_DIR}/invalid.md"
-run_test "Test 2" "${TMP_DIR}/invalid.md" "false" || exit $?
+assert_command "Test 2" 1 "Linting error found in ${TMP_DIR}/invalid.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/invalid.md"
 
 # Test 3: Unsupported npx command
-OUTPUT=$(npx unsupported-command)
-EXIT_CODE=$?
-
-if [[ $EXIT_CODE -eq 1 ]] && [[ "$OUTPUT" == "Unknown command: unsupported-command" ]]; then
-    echo "Test 3 Passed: Unsupported command handled correctly."
-else
-    echo "Test 3 Failed: Unsupported command test failed."
-    # Use a command that exits to signify failure without using the word e x i t here to avoid triggering the block
-    exit 1
-fi
-
+assert_command "Test 3" 1 "Unknown command: unsupported-command" \
+    npx unsupported-command
 
 # Test 4: Default argument should use current directory
-echo "Running Test 4: Default argument uses current directory..."
-OUTPUT=$("$REPO_ROOT/tests/run_lint.sh")
-if [[ "$OUTPUT" == *"Linting passed for ."* ]]; then
-    echo "Test 4 Passed: Default argument correctly used current directory."
-else
-    echo "Test 4 Failed: Default argument test did not behave as expected."
-    echo "Output: $OUTPUT"
-    exit 1
-fi
-
+assert_command "Test 4" 0 "Linting passed for ." \
+    "${REPO_ROOT}/tests/run_lint.sh"
 
 # Test 5: Multiple arguments
-echo "Running Test 5: Multiple arguments..."
 echo "# Valid" > "${TMP_DIR}/valid2.md"
 echo "Valid file." >> "${TMP_DIR}/valid2.md"
-OUTPUT=$("$REPO_ROOT/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/valid2.md")
-EXIT_CODE=$?
-if [[ $EXIT_CODE -eq 0 ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid.md"* ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid2.md"* ]]; then
-    echo "Test 5 Passed: Multiple arguments correctly handled."
-else
-    echo "Test 5 Failed: Multiple arguments test did not behave as expected."
-    echo "Output: $OUTPUT"
-    exit 1
-fi
+assert_command "Test 5" 0 "Linting passed for ${TMP_DIR}/valid.md|Linting passed for ${TMP_DIR}/valid2.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/valid2.md"
 
 # Test 6: Multiple arguments with one error
-echo "Running Test 6: Multiple arguments with one error..."
-OUTPUT=$("$REPO_ROOT/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/invalid.md")
-EXIT_CODE=$?
-if [[ $EXIT_CODE -eq 1 ]] && [[ "$OUTPUT" == *"Linting passed for ${TMP_DIR}/valid.md"* ]] && [[ "$OUTPUT" == *"Linting error found in ${TMP_DIR}/invalid.md"* ]]; then
-    echo "Test 6 Passed: Multiple arguments with error correctly handled."
-else
-    echo "Test 6 Failed: Multiple arguments with error test did not behave as expected."
-    echo "Output: $OUTPUT"
-    exit 1
-fi
+assert_command "Test 6" 1 "Linting passed for ${TMP_DIR}/valid.md|Linting error found in ${TMP_DIR}/invalid.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/invalid.md"
 
 echo "All tests passed!"
