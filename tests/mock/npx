@@ -11,7 +11,10 @@ if [[ "$1" == "markdownlint-cli" ]]; then
 
     has_error=0
     for FILE in "$@"; do
-        if [[ -f "$FILE" && "$(<"$FILE")" == *error* ]]; then
+        if [[ ! -e "$FILE" ]]; then
+            echo "File not found: $FILE"
+            has_error=1
+        elif [[ -f "$FILE" && "$(<"$FILE")" == *error* ]]; then
             echo "Linting error found in $FILE"
             has_error=1
         else

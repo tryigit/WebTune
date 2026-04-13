@@ -100,4 +100,7 @@ else
     exit 1
 fi
 
+# Test 7: Non-existent file should fail
+run_test "Test 7" "non_existent.md" "false" || exit $?
+
 echo "All tests passed!"
