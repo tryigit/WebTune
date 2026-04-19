@@ -78,6 +78,7 @@ assert_command "Test 6" 1 "Linting passed for ${TMP_DIR}/valid.md|Linting error 
     "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/invalid.md"
 
 # Test 7: Non-existent file should fail
-run_test "Test 7" "non_existent.md" "false" || exit $?
+assert_command "Test 7" 1 "File not found: non_existent.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "non_existent.md"
 
 echo "All tests passed!"
