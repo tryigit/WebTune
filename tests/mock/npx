@@ -14,7 +14,7 @@ while [[ "$1" == -* ]]; do shift; done; cmd="${1%%@*}"; if [[ "$cmd" == "markdow
         if [[ ! -e "$FILE" ]]; then
             echo "File not found: $FILE"
             has_error=1
-        elif [[ -f "$FILE" && "$(<"$FILE")" == *error* ]]; then
+        elif [[ -f "$FILE" ]] && grep -q "error" "$FILE"; then
             echo "Linting error found in $FILE"
             has_error=1
         else
