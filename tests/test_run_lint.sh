@@ -80,4 +80,8 @@ assert_command "Test 6" 1 "Linting passed for ${TMP_DIR}/valid.md|Linting error 
 # Test 7: Non-existent file should fail
 assert_command "Test 7" 1 "File not found: non_existent.md" "${REPO_ROOT}/tests/run_lint.sh" "non_existent.md"
 
+# Test 8: Empty string argument should fall back to current directory
+assert_command "Test 8" 0 "Linting passed for ." \
+    "${REPO_ROOT}/tests/run_lint.sh" ""
+
 echo "All tests passed!"
