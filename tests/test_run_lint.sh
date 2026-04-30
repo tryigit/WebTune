@@ -78,7 +78,14 @@ assert_command "Test 6" 1 "Linting passed for ${TMP_DIR}/valid.md|Linting error 
     "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/valid.md" "${TMP_DIR}/invalid.md"
 
 # Test 7: Non-existent file should fail
-assert_command "Test 7" 1 "File not found: non_existent.md" "${REPO_ROOT}/tests/run_lint.sh" "non_existent.md"
+assert_command "Test 7" 1 "File not found: non_existent.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "non_existent.md"
+
+# Test 8: File with spaces in filename should pass
+echo "# Title with Spaces" > "${TMP_DIR}/space test.md"
+echo "This file has spaces in its name." >> "${TMP_DIR}/space test.md"
+assert_command "Test 8" 0 "Linting passed for ${TMP_DIR}/space test.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/space test.md"
 
 # Test 8: File with spaces in filename should pass
 echo "# Title with Spaces" > "${TMP_DIR}/space test.md"
