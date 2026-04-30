@@ -14,6 +14,20 @@ while [[ "$1" == -* ]]; do shift; done; cmd="${1%%@*}"; if [[ "$cmd" == "markdow
         if [[ ! -e "$FILE" ]]; then
             echo "File not found: $FILE"
             has_error=1
+        elif [[ -d "$FILE" ]]; then
+            dir_has_error=0
+            while IFS= read -r -d '' MD_FILE; do
+                if grep -q "error" "$MD_FILE"; then
+                    echo "Linting error found in $MD_FILE"
+                    has_error=1
+                    dir_has_error=1
+                else
+                    echo "Linting passed for $MD_FILE"
+                fi
+            done < <(find "$FILE" -type f -name "*.md" -print0)
+            if [[ $dir_has_error -eq 0 ]]; then
+                echo "Linting passed for $FILE"
+            fi
         elif [[ -f "$FILE" ]] && grep -q "error" "$FILE"; then
             echo "Linting error found in $FILE"
             has_error=1
