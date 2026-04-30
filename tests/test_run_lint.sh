@@ -80,4 +80,14 @@ assert_command "Test 6" 1 "Linting passed for ${TMP_DIR}/valid.md|Linting error 
 # Test 7: Non-existent file should fail
 assert_command "Test 7" 1 "File not found: non_existent.md" "${REPO_ROOT}/tests/run_lint.sh" "non_existent.md"
 
+
+# Test 8: Directory traversal
+mkdir -p "${TMP_DIR}/test_dir"
+echo "# Valid Dir" > "${TMP_DIR}/test_dir/valid_dir.md"
+echo "Valid dir file." >> "${TMP_DIR}/test_dir/valid_dir.md"
+echo "# Invalid Dir" > "${TMP_DIR}/test_dir/invalid_dir.md"
+echo "This file contains an error." >> "${TMP_DIR}/test_dir/invalid_dir.md"
+assert_command "Test 8" 1 "Linting passed for ${TMP_DIR}/test_dir/valid_dir.md|Linting error found in ${TMP_DIR}/test_dir/invalid_dir.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/test_dir"
+
 echo "All tests passed!"
