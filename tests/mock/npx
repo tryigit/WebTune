@@ -29,6 +29,9 @@ while [[ "$1" == -* ]]; do shift; done; cmd="${1%%@*}"; if [[ "$cmd" == "markdow
         if [[ ! -e "$FILE" ]]; then
             echo "File not found: $FILE"
             has_error=1
+        elif [[ ! -r "$FILE" ]]; then
+            echo "Permission denied: $FILE"
+            has_error=1
         elif [[ "${error_files["$FILE"]}" == "1" ]]; then
             echo "Linting error found in $FILE"
             has_error=1

@@ -87,10 +87,10 @@ echo "This file has spaces in its name." >> "${TMP_DIR}/space test.md"
 assert_command "Test 8" 0 "Linting passed for ${TMP_DIR}/space test.md" \
     "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/space test.md"
 
-# Test 8: File with spaces in filename should pass
-echo "# Title with Spaces" > "${TMP_DIR}/space test.md"
-echo "This file has spaces in its name." >> "${TMP_DIR}/space test.md"
-assert_command "Test 8" 0 "Linting passed for ${TMP_DIR}/space test.md" \
-    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/space test.md"
+# Test 9: Unreadable markdown file should fail
+echo "# Unreadable" > "${TMP_DIR}/unreadable.md"
+chmod 000 "${TMP_DIR}/unreadable.md"
+assert_command "Test 9" 1 "Permission denied: ${TMP_DIR}/unreadable.md" \
+    "${REPO_ROOT}/tests/run_lint.sh" "${TMP_DIR}/unreadable.md"
 
 echo "All tests passed!"
